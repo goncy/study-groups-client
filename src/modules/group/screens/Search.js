@@ -1,11 +1,17 @@
 import React, {Component} from "react";
-import {Subscribe} from "unstated";
+import styled from "styled-components";
+// import {Subscribe} from "unstated";
 import {Combobox, FormField, Pane} from "evergreen-ui";
 import connect from "unstated-connect";
 import GroupCard from "./GroupCard";
 
 import UniversityContainer from "../../universities/container";
 import GroupContainer from "../container";
+
+const Container = styled.div`
+  width: 960px;
+  margin: 0 auto;
+`;
 
 class Search extends Component {
   state = {
@@ -45,35 +51,38 @@ class Search extends Component {
       : [];
 
     return (
-      <Subscribe to={[GroupContainer]}>
-        {group => (
-          <div>
-            <Pane>
-              <FormField label="Universidad">
-                <Combobox
-                  items={universities.map(u => u.id)}
-                  placeholder="Universidad"
-                  selectedItem={university}
-                  onChange={this.handleUniversityChange}
-                />
-              </FormField>
-              <FormField label="Materia">
-                <Combobox
-                  items={assignments}
-                  placeholder="Materia"
-                  selectedItem={assignment}
-                  onChange={this.handleAssignmentChange}
-                />
-              </FormField>
+      <Pane width="100%">
+        <Pane background="tint2" borderBottom="muted" paddingY="30px">
+          <Container>
+            <Pane display="flex" justifyContent="center">
+              <Combobox
+                height={40}
+                items={universities.map(u => u.id)}
+                placeholder="Universidad"
+                selectedItem={university}
+                onChange={this.handleUniversityChange}
+              />
+              <Pane width="20px" />
+              <Combobox
+                height={40}
+                items={assignments}
+                placeholder="Materia"
+                selectedItem={assignment}
+                onChange={this.handleAssignmentChange}
+              />
             </Pane>
-            <div>
+          </Container>
+        </Pane>
+        <Pane>
+          <Container>
+            <Pane paddingY="30px">
               {groupContainer.state.list.map(currentGroup => (
                 <GroupCard group={currentGroup} />
               ))}
-            </div>
-          </div>
-        )}
-      </Subscribe>
+            </Pane>
+          </Container>
+        </Pane>
+      </Pane>
     );
   }
 }
