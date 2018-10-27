@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Subscribe} from "unstated";
-import {Combobox, FormField} from "evergreen-ui";
+import {Combobox, FormField, Pane} from "evergreen-ui";
 import connect from "unstated-connect";
+import GroupCard from "./GroupCard";
 
 import UniversityContainer from "../../universities/container";
 import GroupContainer from "../container";
@@ -40,14 +41,14 @@ class Search extends Component {
 
     const universities = universityContainer.state.list;
     const assignments = university
-      ? universities.find(u => u.id === university).classes
+      ? universities.find(u => u.id === university).assignments
       : [];
 
     return (
       <Subscribe to={[GroupContainer]}>
         {group => (
           <div>
-            <div>
+            <Pane>
               <FormField label="Universidad">
                 <Combobox
                   items={universities.map(u => u.id)}
@@ -64,8 +65,12 @@ class Search extends Component {
                   onChange={this.handleAssignmentChange}
                 />
               </FormField>
+            </Pane>
+            <div>
+              {groupContainer.state.list.map(currentGroup => (
+                <GroupCard group={currentGroup} />
+              ))}
             </div>
-            <div>{JSON.stringify(groupContainer.state.list)}</div>
           </div>
         )}
       </Subscribe>
