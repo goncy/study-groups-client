@@ -14,17 +14,19 @@ export default class UserContainer extends Container {
     this.persist(profile);
   }
 
-  async restore() {
+   restore() {
     const session = localStorage.getItem("session");
 
     if (session) {
-      const user = JSON.stringify(session);
+      console.log(session)
+
+      const user = JSON.parse(session);
       this.login(user);
     }
   }
 
   persist = user => {
-    localStorage.setItem("session", JSON.stringify(user));
+    user && localStorage.setItem("session", JSON.stringify(user));
   };
 
   async update(data) {
