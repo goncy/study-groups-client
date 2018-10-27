@@ -28,6 +28,7 @@ const Section = styled.div`
   -webkit-box-shadow: 0px -1px 44px -2px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px -1px 44px -2px rgba(0, 0, 0, 0.75);
   box-shadow: 0px -1px 44px -2px rgba(0, 0, 0, 0.75);
+  border-radius: 6px;
 `;
 const Form = styled.form`
   display: flex;
@@ -47,6 +48,11 @@ const Presentation = styled.div`
   align-items: center;
   width: 50%;
   height: 100%;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  .logo {
+    margin-bottom: 20px;
+  }
   h4 {
     margin: 0;
     font-size: 1.6em;
@@ -57,6 +63,7 @@ const Presentation = styled.div`
     color: #192a3a;
     max-width: 80%;
     font-size: 20px;
+    line-height: 1.3;
   }
 `;
 class LoginScreen extends Component {
@@ -91,7 +98,8 @@ class LoginScreen extends Component {
       <Container>
         <Section>
           <Presentation>
-            <h4>Study Meeting</h4>
+            <img className={'logo'} src={require('../../../assets/logo.svg')} alt=""/>
+            <h4>Stoodi</h4>
             <p>Buscá grupos de estudio que estén estudiando lo mismo que vos</p>
           </Presentation>
           <Form onSubmit={this.login}>
