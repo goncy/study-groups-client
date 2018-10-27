@@ -22,6 +22,7 @@ const Wrapper = styled.section`
   align-items: center;
   min-height: 100vh;
   padding-top: 24px;
+  background: firebrick;
   .side-info {
     display: flex;
     flex-direction: column;
@@ -49,7 +50,6 @@ const Wrapper = styled.section`
       height: 50px;
       font-weight: bold;
       font-size: 16px;
-      color: #FFFFFF;
       letter-spacing: 1.22px;
       text-align: center;
       text-transform: uppercase;
@@ -119,7 +119,7 @@ const Wrapper = styled.section`
     .map {
       width: 100%;
       height: 209px;
-      margin-top: auto;
+      margin-top: 20px;
       img {
       width: 100%;
       height: 100%;
@@ -159,8 +159,14 @@ class DetailsScreen extends Component {
     this.setState({
       joined: !this.state.joined
     }, () => {
-      const message = this.state.joined ? 'Te uniste a este grupo de estudio con éxito' : 'Saliste del grupo'
-      toaster.success(message)
+      const { joined } = this.state
+      const message = joined ? 'Te uniste a este grupo de estudio con éxito' : 'Saliste del grupo'
+      toaster.closeAll()
+      if (joined) {
+        toaster.success(message)
+        return
+      }
+      toaster.notify(message)
     })
   }
 
@@ -179,7 +185,7 @@ class DetailsScreen extends Component {
             elevation={1}
             float="left"
             width={'80%'}
-            maxWidth={'1024'}
+            maxWidth={764}
             minHeight={515}
             padding={42}
             margin={24}
@@ -187,13 +193,15 @@ class DetailsScreen extends Component {
             justifyContent="space-between"
             alignItems="flex-start"
             flexDirection="row"
+            background={'#fafafa'}
+            borderRadius={6}
           >
             <div className="side-info">
               <div className="university-image">
                 <img src="https://www.dc.uba.ar/Trash/eventos/icpc/2009/images/uba_logo.jpg" alt="UBA"/>
               </div>
               <Button onClick={this.joinGroup}
-                      appearance="primary"
+                      appearance={!joined && 'primary'}
                       intent={!joined ? 'success' : 'danger'}
                       marginBottom={20}
               >
