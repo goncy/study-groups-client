@@ -231,7 +231,7 @@ class DetailsScreen extends Component {
             <div className="main-content">
               <h1>{title}</h1>
               <span className="sub-text">
-                {assignment || "clase x"} - en 4 días
+                {groupData.class || "clase x"} - en 4 días
               </span>
               <p>{description || defaultDescription}</p>
               <div className="map">
