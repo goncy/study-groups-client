@@ -28,3 +28,7 @@ body {
   height: 100%;
   display: flex;
 }
+
+div[data-evergreen-toaster-container] .css-nil {
+  display: flex;
+}

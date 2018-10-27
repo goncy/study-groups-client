@@ -65,6 +65,19 @@ const Wrapper = styled.section`
         height: 30px;
         border-radius: 15px;
         background: #C5BDBD;
+        margin: 0 5px;
+        animation: fadeIn .3s;
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0px);
+          }
+        }
+        
       }
     }
     .lugar-title {
@@ -130,6 +143,10 @@ const defaultDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing e
 class DetailsScreen extends Component {
   props: Props
 
+  state = {
+    joined: false
+  }
+
   async componentDidMount () {
     const {containers: [group, user], match} = this.props
     await group.fetch(match.params.id)
@@ -139,7 +156,12 @@ class DetailsScreen extends Component {
   }
 
   joinGroup = () => {
-    toaster.success('Te uniste a este grupo de estudio con éxito')
+    this.setState({
+      joined: !this.state.joined
+    }, () => {
+      const message = this.state.joined ? 'Te uniste a este grupo de estudio con éxito' : 'Saliste del grupo'
+      toaster.success(message)
+    })
   }
 
   render () {
@@ -150,6 +172,7 @@ class DetailsScreen extends Component {
     if (groupData) {
       console.log(groupData)
       const {limit, participants, title, assigment, description} = groupData
+      const joined = this.state.joined
       return (
         <Wrapper>
           <Pane
@@ -169,11 +192,22 @@ class DetailsScreen extends Component {
               <div className="university-image">
                 <img src="https://www.dc.uba.ar/Trash/eventos/icpc/2009/images/uba_logo.jpg" alt="UBA"/>
               </div>
-              <Button onClick={this.joinGroup} appearance="primary" intent="success" marginBottom={20}>Unirse</Button>
+              <Button onClick={this.joinGroup}
+                      appearance="primary"
+                      intent={!joined ? 'success' : 'danger'}
+                      marginBottom={20}
+              >
+                {
+                  !joined ? 'Unirse' : 'Salir'
+                }
+              </Button>
               <span className={'sub-text'}>QUEDAN {limit - participants.length} LUGARES</span>
               <div className="participants">
                 {
-                  participants.map(participant => <div className={'participant'}></div>)
+                  participants.map(participant => <div key={participant} className={'participant'}></div>)
+                }
+                {
+                  joined && <div className={'participant'}></div>
                 }
               </div>
               <span className={'sub-text lugar-title'}>LUGAR Y HORA</span>
@@ -187,7 +221,7 @@ class DetailsScreen extends Component {
               </span>
               <p>{description || defaultDescription}</p>
               <div className="map">
-                <img src="https://cdn-images-1.medium.com/max/1594/1*fbzqstuzsslchbje9108hg.png" alt=""/>
+                <img src="https://cdn-images-1.medium.com/max/1594/1*FbzQStUzSsLChBJE9108hg.png" alt=""/>
               </div>
             </div>
           </Pane>
