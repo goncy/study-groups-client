@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 const Section = styled.div`
   background: #192a3a;
-  width: 70%;
+  width: 65%;
   height: 50%;
   display: flex;
   -webkit-box-shadow: 0px -1px 44px -2px rgba(0, 0, 0, 0.75);
@@ -70,12 +70,15 @@ class LoginScreen extends Component {
   login = async e => {
     const {
       containers: [user],
+      history,
     } = this.props;
     const {email, password} = this.state;
 
     e.preventDefault();
 
     await user.login({email, password});
+
+    history.replace("/groups");
   };
 
   render() {
