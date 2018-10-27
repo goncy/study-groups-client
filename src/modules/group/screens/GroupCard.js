@@ -67,7 +67,7 @@ const GroupCard = ({group}) => (
           <span className="title">Profesor:</span> {group.professor}
         </p>
         <p>
-          <span className="title">Clase:</span> {group.class}
+          <span className="title">Clase:</span> {group.assignment}
         </p>
         <p>
           <span className="title">Ubicación:</span> {group.location}
