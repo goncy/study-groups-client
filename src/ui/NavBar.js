@@ -12,7 +12,11 @@ const NavBar = ({history}) => (
         height="100%"
         justifyContent="space-between"
       >
-        <Heading color="white" fontSize="30px">
+        <Heading alignItems='center' display='flex' color="white" fontSize="30px">
+          <img style={{
+            height: '25px',
+            marginRight: '10px'
+          }} src={require('../assets/logo-white.svg')} alt=""/>
           <Link to="/groups">Stoodi</Link>
         </Heading>
         <Pane alignItems="center" display="flex">

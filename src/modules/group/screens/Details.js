@@ -9,7 +9,7 @@ import {Pane, Text, Button, toaster} from "evergreen-ui";
 import GroupContainer from "../container";
 import UserContainer from "../../user/container";
 
-import { formatDistance } from 'date-fns'
+import { formatDistance, format } from 'date-fns'
 import {es} from 'date-fns/locale'
 
 type Props = {
@@ -242,7 +242,7 @@ class DetailsScreen extends Component {
               <span className="sub-text lugar-title">LUGAR Y HORA</span>
               <p>
                 Biblioteca de la FADU <br />
-                Martes 15 de junio a las 14:30hs
+                {date.toLocaleString('es-ES')}
               </p>
             </div>
             <div className="main-content">
