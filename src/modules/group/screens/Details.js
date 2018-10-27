@@ -24,7 +24,6 @@ const Wrapper = styled.section`
   align-items: center;
   min-height: 100vh;
   padding-top: 24px;
-  background: #d1196e;
   .side-info {
     display: flex;
     flex-direction: column;

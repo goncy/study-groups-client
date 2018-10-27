@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  Pane,
-  IconButton,
-  Heading,
-  Avatar,
-  Popover,
-  Position,
-  Menu,
-} from "evergreen-ui";
+import {Pane, Heading, Avatar, Popover, Position, Menu} from "evergreen-ui";
+import {Link} from "react-router-dom";
 import Container from "./Container";
 
 const NavBar = ({history}) => (
-  <Pane backgroundColor="rgb(15, 1, 94)" height="70px" width="100%">
+  <Pane backgroundColor="#111c27" height="70px" width="100%">
     <Container height="100%">
       <Pane
         alignItems="center"
@@ -20,7 +13,7 @@ const NavBar = ({history}) => (
         justifyContent="space-between"
       >
         <Heading color="white" fontSize="30px">
-          Stoodi
+          <Link to="/groups">Stoodi</Link>
         </Heading>
         <Pane alignItems="center" display="flex">
           <Popover
