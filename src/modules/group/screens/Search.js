@@ -45,7 +45,7 @@ class Search extends Component {
 
     return (
       <Pane width="100%">
-        <Pane background="tint2" borderBottom="muted" paddingY="30px">
+        <Pane background="#00000045" paddingY="30px">
           <Container>
             <Pane display="flex" justifyContent="center">
               <Combobox
@@ -71,9 +71,11 @@ class Search extends Component {
             <Pane paddingY="30px">
               {/* eslint-disable-next-line no-nested-ternary */}
               {!university || !assignment ? (
-                <Text>Seleccione una universidad y materia para buscar.</Text>
+                <Text color="#fff">
+                  Seleccione una universidad y materia para buscar.
+                </Text>
               ) : groupContainer.state.list.length === 0 ? (
-                <Text>No hay resultados para tu busqueda.</Text>
+                <Text color="#fff">No hay resultados para tu busqueda.</Text>
               ) : (
                 groupContainer.state.list.map(currentGroup => (
                   <GroupCard group={currentGroup} />
