@@ -1,17 +1,10 @@
 import React, {Component} from "react";
-import styled from "styled-components";
-// import {Subscribe} from "unstated";
-import {Combobox, FormField, Pane} from "evergreen-ui";
+import {Combobox, Pane, Text} from "evergreen-ui";
 import connect from "unstated-connect";
 import GroupCard from "./GroupCard";
-
+import Container from "../../../ui/Container";
 import UniversityContainer from "../../universities/container";
 import GroupContainer from "../container";
-
-const Container = styled.div`
-  width: 960px;
-  margin: 0 auto;
-`;
 
 class Search extends Component {
   state = {
@@ -76,9 +69,16 @@ class Search extends Component {
         <Pane>
           <Container>
             <Pane paddingY="30px">
-              {groupContainer.state.list.map(currentGroup => (
-                <GroupCard group={currentGroup} />
-              ))}
+              {/* eslint-disable-next-line no-nested-ternary */}
+              {!university || !assignment ? (
+                <Text>Seleccione una universidad y materia para buscar.</Text>
+              ) : groupContainer.state.list.length === 0 ? (
+                <Text>No hay resultados para tu busqueda.</Text>
+              ) : (
+                groupContainer.state.list.map(currentGroup => (
+                  <GroupCard group={currentGroup} />
+                ))
+              )}
             </Pane>
           </Container>
         </Pane>

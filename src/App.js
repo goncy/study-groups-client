@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import connect from "unstated-connect";
+import {Pane} from "evergreen-ui";
+import NavBar from "./ui/NavBar";
 
 import Search from "./modules/group/screens/Search";
 import List from "./modules/group/screens/List";
@@ -27,13 +29,22 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact component={Login} path="/login" />
-          <Route exact component={Search} path="/groups" />
-          <Route exact component={List} path="/my-groups" />
-          <Route exact component={Create} path="/groups/create" />
-          <Route exact component={Details} path="/groups/:id" />
-          <Route exact component={Profile} path="/profile" />
-          <Redirect to="/login" />
+          <Route component={Login} path="/login" />
+          <Route
+            render={() => (
+              <Pane width="100%">
+                <NavBar />
+                <Switch>
+                  <Route exact component={Search} path="/groups" />
+                  <Route component={List} path="/my-groups" />
+                  <Route component={Create} path="/groups/create" />
+                  <Route component={Details} path="/groups/:id" />
+                  <Route component={Profile} path="/profile" />
+                  <Redirect to="/login" />
+                </Switch>
+              </Pane>
+            )}
+          />
         </Switch>
       </BrowserRouter>
     );
