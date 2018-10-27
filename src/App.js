@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
+import styled from "styled-components";
+import connect from "unstated-connect";
+import UniversityContainer from "./modules/universities/container";
 
 import Search from "./modules/group/screens/Search";
 import List from "./modules/group/screens/List";
@@ -10,8 +13,12 @@ import Login from "./modules/user/screens/Login";
 import Profile from "./modules/user/screens/Profile";
 
 class App extends Component {
-  componentDidMount() {
-    console.log("App mounted");
+  async componentDidMount() {
+    const {
+      containers: [university],
+    } = this.props;
+
+    await university.fetch();
   }
 
   render() {
@@ -31,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect([UniversityContainer])(App);
