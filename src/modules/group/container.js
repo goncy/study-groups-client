@@ -8,9 +8,8 @@ export default class GroupContainer extends Container {
     selected: null,
   };
 
-  search = async criteria => {
-    const list = await api.search(criteria);
-
+  search = async (university, assignment) => {
+    const list = await api.search(university, assignment);
     this.setState({list});
   };
 
