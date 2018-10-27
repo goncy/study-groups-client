@@ -13,10 +13,10 @@ export default class GroupContainer extends Container {
     this.setState({list});
   };
 
-  select = id => {
-    this.setState(({list}) => ({
-      selected: list.find(group => group.id === id),
-    }));
+  async fetch (id) {
+    const selected = await api.fetch(id);
+
+    this.setState({selected});
   };
 
   create = async data => {

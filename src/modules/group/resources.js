@@ -7,6 +7,7 @@ export default {
     axios(`${URL}?university_like=${university}&class_like=${assignment}`).then(
       resp => resp.data
     ),
+  fetch: id => axios(`${URL}/${id}`),
   create: data =>
     axios({
       data,
