@@ -1,5 +1,4 @@
 import React from "react";
-import {Heading} from "evergreen-ui";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
@@ -44,41 +43,38 @@ const Card = styled.div`
     }
   }
 `;
-const GroupCard = ({group}) => {
-  console.log(group);
-  return (
-    <Link to={`/groups/${group.id}`}>
-      <Card elevation={1}>
-        <header>
-          <div className="nameandlimit">
-            <span>{group.title}</span>
-            <span>
-              Participantes: {group.participants.length}/{group.limit}
-            </span>
-          </div>
-        </header>
-        <section>
-          <p>
-            <span className="title">Descripción: </span>
-            {group.description}
-          </p>
-          <p>
-            <span className="title">Fecha: </span>
-            {group.datetime}
-          </p>
-          <p>
-            <span className="title">Profesor:</span> {group.professor}
-          </p>
-          <p>
-            <span className="title">Clase:</span> {group.class}
-          </p>
-          <p>
-            <span className="title">Ubicación:</span> {group.location}
-          </p>
-        </section>
-      </Card>
-    </Link>
-  );
-};
+const GroupCard = ({group}) => (
+  <Link to={`/groups/${group.id}`}>
+    <Card elevation={1}>
+      <header>
+        <div className="nameandlimit">
+          <span>{group.title}</span>
+          <span>
+            Participantes: {group.participants.length}/{group.limit}
+          </span>
+        </div>
+      </header>
+      <section>
+        <p>
+          <span className="title">Descripción: </span>
+          {group.description}
+        </p>
+        <p>
+          <span className="title">Fecha: </span>
+          {group.datetime}
+        </p>
+        <p>
+          <span className="title">Profesor:</span> {group.professor}
+        </p>
+        <p>
+          <span className="title">Clase:</span> {group.class}
+        </p>
+        <p>
+          <span className="title">Ubicación:</span> {group.location}
+        </p>
+      </section>
+    </Card>
+  </Link>
+);
 
 export default GroupCard;

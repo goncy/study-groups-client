@@ -11,7 +11,7 @@ type Props = {
 };
 const Container = styled.div`
   font-family: "Open Sans", sans-serif;
-  background: #d1196e;
+  background: #663dbc;
   width: 100%;
   height: 100vh;
   margin: 0;
@@ -41,7 +41,7 @@ const Form = styled.form`
 `;
 const Presentation = styled.div`
   font-family: "Open Sans", sans-serif;
-  background: #34cea7;
+  background: #111c27;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,11 +56,12 @@ const Presentation = styled.div`
   h4 {
     margin: 0;
     font-size: 1.6em;
-    color: #192a3a;
+    font-weight: bold;
+    color: white;
   }
   p {
     text-align: center;
-    color: #192a3a;
+    color: white;
     max-width: 80%;
     font-size: 20px;
     line-height: 1.3;
@@ -98,7 +99,11 @@ class LoginScreen extends Component {
       <Container>
         <Section>
           <Presentation>
-            <img className={'logo'} src={require('../../../assets/logo.svg')} alt=""/>
+            <img
+              alt=""
+              className="logo"
+              src={require("../../../assets/logo.svg")}
+            />
             <h4>Stoodi</h4>
             <p>Buscá grupos de estudio que estén estudiando lo mismo que vos</p>
           </Presentation>
