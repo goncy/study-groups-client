@@ -6,6 +6,7 @@ export default class GroupContainer extends Container {
   state = {
     list: [],
     selected: null,
+    syncing: false,
   };
 
   search = async (university, assignment) => {
@@ -13,17 +14,25 @@ export default class GroupContainer extends Container {
     this.setState({list});
   };
 
-  async fetch (id) {
+  async fetch(id) {
     const selected = await api.fetch(id);
 
     this.setState({selected});
-  };
+  }
 
-  create = async data => {
+  async create(data) {
+    this.setState({syncing: true});
+
     const group = await api.create(data);
 
-    this.setState(({list}) => ({list: list.concat(group), selected: group}));
-  };
+    this.setState(({list}) => ({
+      list: list.concat(group),
+      selected: group,
+      syncing: false,
+    }));
+
+    return group;
+  }
 
   update = async data => {
     const profile = await api.update(data);

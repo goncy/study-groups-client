@@ -13,7 +13,7 @@ export default {
       data,
       url: URL,
       method: "POST",
-    }),
+    }).then(resp => resp.data),
   update: data =>
     axios({
       data,

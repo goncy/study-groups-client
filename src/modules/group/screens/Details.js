@@ -1,18 +1,17 @@
 // @flow
-import type { Container } from 'unstated'
+import type {Container} from "unstated";
 
-import React, { Component } from 'react'
-import connect from 'unstated-connect'
+import React, {Component} from "react";
+import connect from "unstated-connect";
 
-import GroupContainer from '../container'
-import styled from 'styled-components'
-import { Pane, Text, Button, toaster } from 'evergreen-ui'
-import UserContainer from '../../user/container'
+import styled from "styled-components";
+import {Pane, Text, Button, toaster} from "evergreen-ui";
+import GroupContainer from "../container";
+import UserContainer from "../../user/container";
 
-type
-Props = {
-  containers: Array < Container >,
-}
+type Props = {
+  containers: Array<Container>,
+};
 
 const Wrapper = styled.section`
   display: flex;
@@ -49,7 +48,7 @@ const Wrapper = styled.section`
       height: 50px;
       font-weight: bold;
       font-size: 16px;
-      color: #FFFFFF;
+      color: #ffffff;
       letter-spacing: 1.22px;
       text-align: center;
       text-transform: uppercase;
@@ -64,9 +63,9 @@ const Wrapper = styled.section`
         width: 30px;
         height: 30px;
         border-radius: 15px;
-        background: #C5BDBD;
+        background: #c5bdbd;
         margin: 0 5px;
-        animation: fadeIn .3s;
+        animation: fadeIn 0.3s;
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -77,7 +76,6 @@ const Wrapper = styled.section`
             transform: translateY(0px);
           }
         }
-        
       }
     }
     .lugar-title {
@@ -121,9 +119,9 @@ const Wrapper = styled.section`
       height: 209px;
       margin-top: auto;
       img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }
@@ -136,102 +134,110 @@ const Wrapper = styled.section`
     letter-spacing: 0.42px;
     text-align: center;
   }
-`
+`;
 
-const defaultDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sapien mauris, dapibus eu efficitur et, pharetra eget mauris. Pellentesque condimentum, arcu nec gravida pellentesque, nibh dolor scelerisque massa, ut ullamcorper lectus magna vel sapien.'
+const defaultDescription =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sapien mauris, dapibus eu efficitur et, pharetra eget mauris. Pellentesque condimentum, arcu nec gravida pellentesque, nibh dolor scelerisque massa, ut ullamcorper lectus magna vel sapien.";
 
 class DetailsScreen extends Component {
-  props: Props
+  props: Props;
 
   state = {
-    joined: false
-  }
+    joined: false,
+  };
 
-  async componentDidMount () {
-    const {containers: [group, user], match} = this.props
-    await group.fetch(match.params.id)
-    const participants = this.props.containers[0].state.selected.data.participants
-    console.log('test', this.props.containers[1])
+  async componentDidMount() {
+    const {
+      containers: [group],
+      match,
+    } = this.props;
+    await group.fetch(match.params.id);
+    console.log("test", this.props.containers[1]);
     // TODO: traer data de los participantes
   }
 
   joinGroup = () => {
-    this.setState({
-      joined: !this.state.joined
-    }, () => {
-      const message = this.state.joined ? 'Te uniste a este grupo de estudio con éxito' : 'Saliste del grupo'
-      toaster.success(message)
-    })
-  }
+    this.setState(
+      {
+        joined: !this.state.joined,
+      },
+      () => {
+        const message = this.state.joined
+          ? "Te uniste a este grupo de estudio con éxito"
+          : "Saliste del grupo";
+        toaster.success(message);
+      }
+    );
+  };
 
-  render () {
+  render() {
     const {
       containers: [group],
-    } = this.props
-    const groupData = group.state.selected && group.state.selected.data
+    } = this.props;
+    const groupData = group.state.selected && group.state.selected.data;
     if (groupData) {
-      console.log(groupData)
-      const {limit, participants, title, assigment, description} = groupData
-      const joined = this.state.joined
+      console.log(groupData);
+      const {limit, participants, title, assigment, description} = groupData;
+      const joined = this.state.joined;
       return (
         <Wrapper>
           <Pane
-            elevation={1}
-            float="left"
-            width={'80%'}
-            maxWidth={'1024'}
-            minHeight={515}
-            padding={42}
-            margin={24}
-            display="flex"
-            justifyContent="space-between"
             alignItems="flex-start"
+            display="flex"
+            elevation={1}
             flexDirection="row"
+            justifyContent="space-between"
+            margin={24}
           >
             <div className="side-info">
               <div className="university-image">
-                <img src="https://www.dc.uba.ar/Trash/eventos/icpc/2009/images/uba_logo.jpg" alt="UBA"/>
+                <img
+                  alt="UBA"
+                  src="https://www.dc.uba.ar/Trash/eventos/icpc/2009/images/uba_logo.jpg"
+                />
               </div>
-              <Button onClick={this.joinGroup}
-                      appearance="primary"
-                      intent={!joined ? 'success' : 'danger'}
-                      marginBottom={20}
+              <Button
+                appearance="primary"
+                intent={!joined ? "success" : "danger"}
+                marginBottom={20}
+                onClick={this.joinGroup}
               >
-                {
-                  !joined ? 'Unirse' : 'Salir'
-                }
+                {!joined ? "Unirse" : "Salir"}
               </Button>
-              <span className={'sub-text'}>QUEDAN {limit - participants.length} LUGARES</span>
+              <span className="sub-text">
+                QUEDAN {limit - participants.length} LUGARES
+              </span>
               <div className="participants">
-                {
-                  participants.map(participant => <div key={participant} className={'participant'}></div>)
-                }
-                {
-                  joined && <div className={'participant'}></div>
-                }
+                {participants.map(participant => (
+                  <div key={participant} className="participant" />
+                ))}
+                {joined && <div className="participant" />}
               </div>
-              <span className={'sub-text lugar-title'}>LUGAR Y HORA</span>
-              <p>Biblioteca de la FADU <br/>
-                Martes 15 de junio a las 14:30hs</p>
+              <span className="sub-text lugar-title">LUGAR Y HORA</span>
+              <p>
+                Biblioteca de la FADU <br />
+                Martes 15 de junio a las 14:30hs
+              </p>
             </div>
             <div className="main-content">
               <h1>{title}</h1>
               <span className="sub-text">
-                {assigment || 'clase x'} - en 4 días
+                {assigment || "clase x"} - en 4 días
               </span>
               <p>{description || defaultDescription}</p>
               <div className="map">
-                <img src="https://cdn-images-1.medium.com/max/1594/1*FbzQStUzSsLChBJE9108hg.png" alt=""/>
+                <img
+                  alt=""
+                  src="https://cdn-images-1.medium.com/max/1594/1*FbzQStUzSsLChBJE9108hg.png"
+                />
               </div>
             </div>
           </Pane>
         </Wrapper>
-      )
-    } else {
-      return ''
+      );
     }
-
+    return "";
   }
 }
 
-export default connect([GroupContainer, UserContainer])(DetailsScreen)
+export default connect([GroupContainer, UserContainer])(DetailsScreen);
