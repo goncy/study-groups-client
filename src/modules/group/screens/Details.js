@@ -6,7 +6,8 @@ import connect from 'unstated-connect'
 
 import GroupContainer from '../container'
 import styled from 'styled-components'
-import { Pane, Text, Button } from 'evergreen-ui'
+import { Pane, Text, Button, toaster } from 'evergreen-ui'
+import UserContainer from '../../user/container'
 
 type
 Props = {
@@ -26,8 +27,9 @@ const Wrapper = styled.section`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100%;
-    margin-top: -200px;
+    height: 120%;
+    margin-top: -100px;
+    max-width: 210px;
     .university-image {
       width: 185px;
       height: 185px;
@@ -52,9 +54,69 @@ const Wrapper = styled.section`
       text-align: center;
       text-transform: uppercase;
     }
+    .participants {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100%;
+      margin-top: 7px;
+      .participant {
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background: #C5BDBD;
+      }
+    }
+    .lugar-title {
+      display: block;
+      margin-top: 20px;
+    }
+    p {
+      font-size: 16px;
+      color: #000000;
+      letter-spacing: 0.42px;
+      text-align: center;
+      line-height: 22px;
+      font-weight: bold;
+      margin-top: 0;
+    }
+  }
+  .main-content {
+    margin-left: 55px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    h1 {
+      margin: 0;
+      font-weight: normal;
+      font-size: 2rem;
+    }
+    span.sub-text {
+      margin-bottom: 17px;
+    }
+    p {
+      margin-top: 0;
+      font-size: 16px;
+      color: #000000;
+      letter-spacing: 0.42px;
+      line-height: 22px;
+    }
+    .map {
+      width: 100%;
+      height: 209px;
+      margin-top: auto;
+      img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      }
+    }
   }
   .sub-text {
     opacity: 0.52;
+    text-transform: uppercase;
     font-weight: bold;
     font-size: 16px;
     color: #000000;
@@ -63,12 +125,21 @@ const Wrapper = styled.section`
   }
 `
 
+const defaultDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sapien mauris, dapibus eu efficitur et, pharetra eget mauris. Pellentesque condimentum, arcu nec gravida pellentesque, nibh dolor scelerisque massa, ut ullamcorper lectus magna vel sapien.'
+
 class DetailsScreen extends Component {
   props: Props
 
   async componentDidMount () {
-    const {containers: [group], match} = this.props
+    const {containers: [group, user], match} = this.props
     await group.fetch(match.params.id)
+    const participants = this.props.containers[0].state.selected.data.participants
+    console.log('test', this.props.containers[1])
+    // TODO: traer data de los participantes
+  }
+
+  joinGroup = () => {
+    toaster.success('Te uniste a este grupo de estudio con éxito')
   }
 
   render () {
@@ -78,6 +149,7 @@ class DetailsScreen extends Component {
     const groupData = group.state.selected && group.state.selected.data
     if (groupData) {
       console.log(groupData)
+      const {limit, participants, title, assigment, description} = groupData
       return (
         <Wrapper>
           <Pane
@@ -85,20 +157,38 @@ class DetailsScreen extends Component {
             float="left"
             width={'80%'}
             maxWidth={'1024'}
-            height={515}
+            minHeight={515}
             padding={42}
             margin={24}
             display="flex"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="flex-start"
             flexDirection="row"
           >
             <div className="side-info">
               <div className="university-image">
                 <img src="https://www.dc.uba.ar/Trash/eventos/icpc/2009/images/uba_logo.jpg" alt="UBA"/>
               </div>
-              <Button appearance="primary" intent="success">Unirse</Button>
-              <span className={'sub-text'}>QUEDAN 3 LUGARES</span>
+              <Button onClick={this.joinGroup} appearance="primary" intent="success" marginBottom={20}>Unirse</Button>
+              <span className={'sub-text'}>QUEDAN {limit - participants.length} LUGARES</span>
+              <div className="participants">
+                {
+                  participants.map(participant => <div className={'participant'}></div>)
+                }
+              </div>
+              <span className={'sub-text lugar-title'}>LUGAR Y HORA</span>
+              <p>Biblioteca de la FADU <br/>
+                Martes 15 de junio a las 14:30hs</p>
+            </div>
+            <div className="main-content">
+              <h1>{title}</h1>
+              <span className="sub-text">
+                {assigment || 'clase x'} - en 4 días
+              </span>
+              <p>{description || defaultDescription}</p>
+              <div className="map">
+                <img src="https://cdn-images-1.medium.com/max/1594/1*fbzqstuzsslchbje9108hg.png" alt=""/>
+              </div>
             </div>
           </Pane>
         </Wrapper>
@@ -110,4 +200,4 @@ class DetailsScreen extends Component {
   }
 }
 
-export default connect([GroupContainer])(DetailsScreen)
+export default connect([GroupContainer, UserContainer])(DetailsScreen)

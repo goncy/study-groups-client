@@ -26,7 +26,7 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route component={Login} path="/login" />
-          <Route component={Search} path="/groups" />
+          <Route exact component={Search} path="/groups" />
           <Route component={List} path="/my-groups" />
           <Route component={Create} path="/groups/create" />
           <Route component={Details} path="/groups/:id" />
