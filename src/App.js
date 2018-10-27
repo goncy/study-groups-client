@@ -1,26 +1,32 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from "react";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
+
+import Search from "./modules/group/screens/Search";
+import List from "./modules/group/screens/List";
+import Create from "./modules/group/screens/Create";
+import Details from "./modules/group/screens/Details";
+
+import Login from "./modules/user/screens/Login";
+import Profile from "./modules/user/screens/Profile";
 
 class App extends Component {
+  componentDidMount() {
+    console.log("App mounted");
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <BrowserRouter>
+        <Switch>
+          <Route component={Login} path="/login" />
+          <Route component={Search} path="/groups" />
+          <Route component={List} path="/my-groups" />
+          <Route component={Create} path="/groups/create" />
+          <Route component={Details} path="/groups/:id" />
+          <Route component={Profile} path="/profile" />
+          <Redirect to="/login" />
+        </Switch>
+      </BrowserRouter>
     );
   }
 }
