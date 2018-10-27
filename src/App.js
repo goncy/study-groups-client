@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import connect from "unstated-connect";
 import {Pane} from "evergreen-ui";
-import UniversityContainer from "./modules/universities/container";
 import NavBar from "./ui/NavBar";
 
 import Search from "./modules/group/screens/Search";
