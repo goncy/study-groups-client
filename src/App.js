@@ -31,9 +31,9 @@ class App extends Component {
         <Switch>
           <Route component={Login} path="/login" />
           <Route
-            render={() => (
+            render={({history}) => (
               <Pane width="100%">
-                <NavBar />
+                <NavBar history={history} />
                 <Switch>
                   <Route exact component={Search} path="/groups" />
                   <Route component={List} path="/my-groups" />
