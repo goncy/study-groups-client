@@ -9,6 +9,9 @@ import {Pane, Text, Button, toaster} from "evergreen-ui";
 import GroupContainer from "../container";
 import UserContainer from "../../user/container";
 
+import { formatDistance } from 'date-fns'
+import {es} from 'date-fns/locale'
+
 type Props = {
   containers: Array<Container>,
 };
@@ -59,6 +62,7 @@ const Wrapper = styled.section`
       justify-content: flex-start;
       width: 100%;
       margin-top: 7px;
+      height: 30px;
       .participant {
         width: 30px;
         height: 30px;
@@ -156,29 +160,44 @@ class DetailsScreen extends Component {
     // TODO: traer data de los participantes
   }
 
+  isJoined = () => {
+    const {
+      containers: [group, user]
+    } = this.props
+    return group.state.selected.participants.some(participant => participant === user.state.profile.id)
+  }
+
   joinGroup = () => {
-    this.setState({
-      joined: !this.state.joined
-    }, () => {
-      const { joined } = this.state
-      const message = joined ? 'Te uniste a este grupo de estudio con éxito' : 'Saliste del grupo'
-      toaster.closeAll()
-      if (joined) {
-        toaster.success(message)
-        return
-      }
-      toaster.notify(message)
-    })
+    const {
+      containers: [group, user],
+      match,
+    } = this.props;
+
+    toaster.closeAll()
+    const groupId = group.state.selected.id
+
+    console.log('isJoined', this.isJoined())
+
+    if (!this.isJoined()) {
+      console.log('lets join')
+      group.join(user.state.profile)
+      toaster.success('Te uniste a este grupo de estudio con éxito')
+    } else {
+      console.log('chau')
+      group.leave(user.state.profile.id)
+      toaster.notify('Saliste del grupo')
+    }
   }
 
   render() {
     const {
       containers: [group],
     } = this.props;
-    const groupData = group.state.selected && group.state.selected.data;
+    const groupData = group.state.selected;
     if (groupData) {
-      console.log(groupData);
-      const {limit, participants, title, assignment, description} = groupData;
+      const {limit, participants, title, assignment, description, datetime} = groupData;
+      const date = new Date(datetime)
+      const distance = formatDistance(new Date(), date, { locale: es })
       const joined = this.state.joined;
       return (
         <Wrapper>
@@ -207,11 +226,11 @@ class DetailsScreen extends Component {
                 />
               </div>
               <Button onClick={this.joinGroup}
-                      appearance={!joined && 'primary'}
-                      intent={!joined ? 'success' : 'danger'}
+                      appearance={!this.isJoined() && 'primary'}
+                      intent={!this.isJoined() ? 'success' : 'danger'}
                       marginBottom={20}
               >
-                {!joined ? "Unirse" : "Salir"}
+                {!this.isJoined() ? "Unirse" : "Salir"}
               </Button>
               <span className="sub-text">
                 QUEDAN {limit - participants.length} LUGARES
@@ -220,7 +239,6 @@ class DetailsScreen extends Component {
                 {participants.map(participant => (
                   <div key={participant} className="participant" />
                 ))}
-                {joined && <div className="participant" />}
               </div>
               <span className="sub-text lugar-title">LUGAR Y HORA</span>
               <p>
@@ -231,7 +249,7 @@ class DetailsScreen extends Component {
             <div className="main-content">
               <h1>{title}</h1>
               <span className="sub-text">
-                {groupData.class || "clase x"} - en 4 días
+                {groupData.class || "clase x"} - en {distance}
               </span>
               <p>{description || defaultDescription}</p>
               <div className="map">

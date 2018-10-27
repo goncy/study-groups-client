@@ -39,4 +39,25 @@ export default class GroupContainer extends Container {
 
     this.setState({profile});
   };
+
+  join = async (user) => {
+    this.setState(({selected}) => ({
+      selected: {
+        ...selected,
+        participants: [
+          ...selected.participants,
+          user.id
+        ]
+      }
+    }))
+  }
+
+  leave = async (id) => {
+    this.setState(({selected}) => ({
+      selected: {
+        ...selected,
+        participants: selected.participants.filter(userId => userId !== id)
+      }
+    }))
+  }
 }
