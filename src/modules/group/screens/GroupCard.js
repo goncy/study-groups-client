@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
-import {Pane, Heading, Avatar, Pill, Paragraph, Text} from "evergreen-ui";
+import {Pane, Heading, Avatar, Pill, Paragraph, Text, Icon} from "evergreen-ui";
+
+import {formatDistance} from "date-fns";
+import {es} from "date-fns/locale";
 
 const Card = styled.div`
   min-width: 800px;
-  min-height: 100px;
   margin-bottom: 2em;
   padding: 1em;
   background: #f7f7f7;
@@ -67,12 +69,23 @@ const GroupCard = ({group}) => (
           ))}
         </Pane>
       </Pane>
-      <section>
-        <Paragraph size="400">{group.description}</Paragraph>
-      </section>
+      <Paragraph marginBottom="24px" size={400}>
+        {group.description}
+      </Paragraph>
       <Pane alignItems="center" display="flex" justifyContent="space-between">
-        <Text size="400">{group.datetime}</Text>
-        <Text size="400">{group.location}</Text>
+        <Pane alignItems="center" display="flex">
+          <Icon icon="time" marginRight="6px" />
+          <Text size={400}>
+            {"en"}{" "}
+            {formatDistance(new Date(), new Date(group.datetime), {
+              locale: es,
+            })}
+          </Text>
+        </Pane>
+        <Pane alignItems="center" display="flex">
+          <Icon icon="geolocation" marginRight="6px" />
+          <Text size={400}>{group.location}</Text>
+        </Pane>
       </Pane>
     </Card>
   </Link>
