@@ -254,7 +254,7 @@ class DetailsScreen extends Component {
               <div className="map">
                 <img
                   alt=""
-                  src="https://cdn-images-1.medium.com/max/1594/1*FbzQStUzSsLChBJE9108hg.png"
+                  src={require('../../../assets/map.png')}
                 />
               </div>
             </div>
