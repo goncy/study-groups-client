@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {Pane, Heading, Avatar, Pill, Paragraph, Text} from "evergreen-ui";
 
 const Card = styled.div`
   min-width: 800px;
@@ -43,36 +44,36 @@ const Card = styled.div`
     }
   }
 `;
+
 const GroupCard = ({group}) => (
   <Link to={`/groups/${group.id}`}>
     <Card elevation={1}>
-      <header>
-        <div className="nameandlimit">
-          <span>{group.title}</span>
-          <span>
-            Participantes: {group.participants.length}/{group.limit}
-          </span>
-        </div>
-      </header>
+      <Pane
+        alignItems="center"
+        display="flex"
+        justifyContent="space-between"
+        marginBottom="8px"
+      >
+        <Heading size="800">{group.title}</Heading>
+        <Pane alignItems="center" display="flex">
+          <Pill display="inline-flex" marginRight={16}>
+            {group.participants.length}/{group.limit}
+          </Pill>
+          {group.participants.map((_, i) => (
+            <Avatar
+              size={40}
+              src={`https://randomuser.me/api/portraits/women/${i + 1}.jpg`}
+            />
+          ))}
+        </Pane>
+      </Pane>
       <section>
-        <p>
-          <span className="title">Descripción: </span>
-          {group.description}
-        </p>
-        <p>
-          <span className="title">Fecha: </span>
-          {group.datetime}
-        </p>
-        <p>
-          <span className="title">Profesor:</span> {group.professor}
-        </p>
-        <p>
-          <span className="title">Clase:</span> {group.assignment}
-        </p>
-        <p>
-          <span className="title">Ubicación:</span> {group.location}
-        </p>
+        <Paragraph size="400">{group.description}</Paragraph>
       </section>
+      <Pane alignItems="center" display="flex" justifyContent="space-between">
+        <Text size="400">{group.datetime}</Text>
+        <Text size="400">{group.location}</Text>
+      </Pane>
     </Card>
   </Link>
 );
